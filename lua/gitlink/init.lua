@@ -22,10 +22,14 @@ local function get_url()
         .. '/blob/'
         .. vim.trim(vim.system({ 'git', 'rev-parse', 'HEAD' }, { text = true }):wait().stdout)
         .. '/'
-        .. vim.fn.fnamemodify(vim.fn.bufname(), ':.') .. '#L' .. vim.fn.line('.')
+        .. vim.fs.normalize(vim.fn.fnamemodify(vim.fn.bufname(), ':.'))
+        .. '#L'
+        .. vim.fn.line('.')
 end
 
-function M.open() vim.ui.open(get_url()) end
+function M.open()
+    vim.ui.open(get_url())
+end
 
 function M.copy()
     vim.fn.setreg('+', get_url())
