@@ -4,6 +4,11 @@ local function remote_url_to_http(url)
     if vim.startswith(url, 'git@') then
         return 'https://' .. vim.fn.substitute(string.sub(url, 5, -5), ':', '/', 'g')
     else
+        if vim.endswith(url, '.git') then
+            return string.sub(url, 1, -5)
+        else
+            return url
+        end
     end
 end
 
