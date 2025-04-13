@@ -1,4 +1,4 @@
-# gitlink.nvim[WIP]
+# gitlink.nvim
 
 `gitlink.nvim` provide the feature that go to current file's online link in browser and copy the link in clipboard. Which is inspired by [neovim-gitlink](https://marketplace.visualstudio.com/items?itemName=qezhu.gitlink)
 
