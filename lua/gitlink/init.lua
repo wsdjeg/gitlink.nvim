@@ -2,9 +2,9 @@ local M = {}
 
 local function remote_url_to_http(url)
     if vim.startswith(url, 'git@') then
+        return 'https://' .. vim.fn.substitute(string.sub(url, 5, -5), ':', '/', 'g')
     else
     end
-    
 end
 
 local function get_url()
@@ -17,13 +17,18 @@ local function get_url()
     end, vim.split(vim.system({ 'git', 'remote', '-v' }, { text = true }):wait().stdout, '\n'))[1]
     local remote = vim.fn.split(remove_verbose_info)[1]
     local url = vim.fn.split(remove_verbose_info)[2]
-    return remove_verbose_info
+    url = remote_url_to_http(url)
+    return url
+        .. '/blob/'
+        .. vim.trim(vim.system({ 'git', 'rev-parse', 'HEAD' }, { text = true }):wait().stdout)
+        .. '/'
+        .. vim.fn.fnamemodify(vim.fn.bufname(), ':.') .. '#L' .. vim.fn.line('.')
 end
 
-function M.open() end
+function M.open() vim.ui.open(get_url()) end
 
 function M.copy()
-    print(get_url())
+    vim.fn.setreg('+', get_url())
 end
 
 function M.setup() end
