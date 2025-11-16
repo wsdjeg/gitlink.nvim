@@ -1,23 +1,27 @@
 # gitlink.nvim
 
-`gitlink.nvim` provide the feature that go to current file's online link in browser and copy the link in clipboard. Which is inspired by [neovim-gitlink](https://marketplace.visualstudio.com/items?itemName=qezhu.gitlink)
-
+`gitlink.nvim` is a lua plugin for neovim to open permalink link of current file in browser or copy the link to clipboard.
+Which is inspired by [neovim-gitlink](https://marketplace.visualstudio.com/items?itemName=qezhu.gitlink)
 
 ## Installation
+
+Using [nvim-plug](https://github.com/wsdjeg/nvim-plug)
 
 ```lua
 require('plug').add({
     {
         'wsdjeg/gitlink.nvim',
-        config = function()
-            vim.keymap.set('n', '<leader>fy', function()
-                require('gitlink').copy()
-            end, { silent = true })
-            vim.keymap.set('n', '<leader>fY', function()
-                require('gitlink').open()
-            end, { silent = true })
-        end,
     },
 })
 ```
 
+## Usage
+
+```lua
+vim.keymap.set('n', '<leader>fy', function()
+    require('gitlink').copy()
+end, { silent = true })
+vim.keymap.set('n', '<leader>fY', function()
+    require('gitlink').open()
+end, { silent = true })
+```
