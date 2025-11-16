@@ -13,6 +13,9 @@ require('plug').add({
             vim.keymap.set('n', '<leader>fy', function()
                 require('gitlink').copy()
             end, { silent = true })
+            vim.keymap.set('n', '<leader>fY', function()
+                require('gitlink').open()
+            end, { silent = true })
         end,
     },
 })
