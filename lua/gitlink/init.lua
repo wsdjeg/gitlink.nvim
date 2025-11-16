@@ -14,6 +14,7 @@ end
 
 local function get_url()
     if vim.fn.executable('git') == 0 then
+        require('gitlink.util').notify('git is not executable!')
         return
     end
     local find_path = vim.fs.root(0, '.git')
@@ -33,11 +34,17 @@ local function get_url()
 end
 
 function M.open()
-    vim.ui.open(get_url())
+    local url = get_url()
+    if url then
+        vim.ui.open(url)
+    end
 end
 
 function M.copy()
-    vim.fn.setreg('+', get_url())
+    local url = get_url()
+    if url then
+        vim.fn.setreg('+', url)
+    end
 end
 
 function M.setup() end
