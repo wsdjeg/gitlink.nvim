@@ -1,6 +1,6 @@
 # gitlink.nvim
 
-A lua plugin for neovim to open permalink link of current file in browser or copy the link to clipboard.
+A Lua plugin for Neovim to generate and open permalink of current file in browser or copy the link to clipboard.
 
 [![Run Tests](https://github.com/wsdjeg/gitlink.nvim/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/wsdjeg/gitlink.nvim/actions/workflows/test.yml)
 [![GitHub License](https://img.shields.io/github/license/wsdjeg/gitlink.nvim)](LICENSE)
@@ -11,15 +11,44 @@ A lua plugin for neovim to open permalink link of current file in browser or cop
 
 <!-- vim-markdown-toc GFM -->
 
+- [Features](#features)
+- [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Configuration](#configuration)
+- [Supported Platforms](#supported-platforms)
 - [Credits](#credits)
 - [Self-Promotion](#self-promotion)
 - [License](#license)
 
 <!-- vim-markdown-toc -->
 
+## Features
+
+- 🚀 Generate permalink for current file at current line
+- 📋 Copy link to clipboard
+- 🌐 Open link directly in browser
+- 🔍 Auto-detect Git platform from remote URL
+- 🔗 Support both HTTPS and SSH remote URLs
+
+## Requirements
+
+- Neovim >= 0.10.0
+- Git
+
 ## Installation
+
+Using [lazy.nvim](https://github.com/folke/lazy.nvim)
+
+```lua
+{
+    'wsdjeg/gitlink.nvim',
+    keys = {
+        { '<leader>gy', function() require('gitlink').copy() end, desc = 'Copy git link' },
+        { '<leader>gY', function() require('gitlink').open() end, desc = 'Open git link in browser' },
+    },
+}
+```
 
 Using [nvim-plug](https://github.com/wsdjeg/nvim-plug)
 
@@ -34,13 +63,37 @@ require('plug').add({
 ## Usage
 
 ```lua
-vim.keymap.set('n', '<leader>fy', function()
+-- Copy git link to clipboard
+vim.keymap.set('n', '<leader>gy', function()
     require('gitlink').copy()
-end, { silent = true })
-vim.keymap.set('n', '<leader>fY', function()
+end, { silent = true, desc = 'Copy git link' })
+
+-- Open git link in browser
+vim.keymap.set('n', '<leader>gY', function()
     require('gitlink').open()
-end, { silent = true })
+end, { silent = true, desc = 'Open git link in browser' })
 ```
+
+| Function                    | Description                 |
+| --------------------------- | --------------------------- |
+| `require('gitlink').copy()` | Copy permalink to clipboard |
+| `require('gitlink').open()` | Open permalink in browser   |
+
+## Configuration
+
+```lua
+require('gitlink').setup()
+```
+
+## Supported Platforms
+
+| Platform  | URL Format                                 | Custom Domain Support           |
+| --------- | ------------------------------------------ | ------------------------------- |
+| GitHub    | `{url}/blob/{commit}/{path}#L{line}`       | No                              |
+| GitLab    | `{url}/-/blob/{commit}/{path}#L{line}`     | Yes (matches `gitlab.` pattern) |
+| Bitbucket | `{url}/src/{commit}/{path}#lines-{line}`   | No                              |
+| Gitee     | `{url}/blob/{commit}/{path}#L{line}`       | No                              |
+| Codeberg  | `{url}/src/commit/{commit}/{path}#L{line}` | No                              |
 
 ## Credits
 
