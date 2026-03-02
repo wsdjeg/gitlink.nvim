@@ -2,6 +2,7 @@
 
 A lua plugin for neovim to open permalink link of current file in browser or copy the link to clipboard.
 
+[![Run Tests](https://github.com/wsdjeg/gitlink.nvim/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/wsdjeg/gitlink.nvim/actions/workflows/test.yml)
 [![GitHub License](https://img.shields.io/github/license/wsdjeg/gitlink.nvim)](LICENSE)
 [![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/wsdjeg/gitlink.nvim)](https://github.com/wsdjeg/gitlink.nvim/issues)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/wsdjeg/gitlink.nvim)](https://github.com/wsdjeg/gitlink.nvim/commits/master/)
