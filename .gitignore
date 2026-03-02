@@ -1,0 +1,37 @@
+# Lua
+*.luac
+*.lua~
+.luacheckcache
+
+# LuaRocks
+/.luarocks
+/luarocks
+
+# Vim/Neovim
+*.swp
+*.swo
+*~
+.*.sw[a-z]
+Session.vim
+
+# Test temporary files
+test/*.out
+test/*.lua~
+
+# Editor/IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+/dist/
+/build/
+/deps/
+
+# Logs
+*.log
+
