@@ -28,17 +28,13 @@ jobs:
           neovim: true
           version: ${{ matrix.nvim-version }}
       
-      - name: Install luaunit
+      - name: Install luaunit and luacheck
         run: |
           sudo apt-get update
-          sudo apt-get install -y luarocks
-          luarocks install luaunit
+          sudo apt-get install -y lua-luaunit lua-luacheck
       
       - name: Run tests
         run: make test
       
       - name: Run linting
-        run: |
-          luarocks install luacheck
-          make lint
-
+        run: make lint
