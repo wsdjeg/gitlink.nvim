@@ -83,7 +83,6 @@ function TestPlatform:test_get_platforms()
     lu.assertEquals(platforms[5], 'gitlab')
 end
 
--- Run tests
 local runner = lu.LuaUnit:new()
-runner:setOutputType('text')
+runner:setOutputType('tap')
 os.exit(runner:runSuite())
