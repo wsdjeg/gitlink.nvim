@@ -1,6 +1,7 @@
 local M = {}
 
 local util = require('gitlink.util')
+local platform = require('gitlink.platform')
 
 local function remote_url_to_http(url)
     if vim.startswith(url, 'git@') then
@@ -29,13 +30,16 @@ local function get_url()
     end, vim.split(vim.system({ 'git', 'remote', '-v' }, { text = true }):wait().stdout, '\n'))[1]
     local url = vim.fn.split(remove_verbose_info)[2]
     url = remote_url_to_http(url)
-    return url
-        .. '/blob/'
-        .. vim.trim(vim.system({ 'git', 'rev-parse', 'HEAD' }, { text = true }):wait().stdout)
-        .. '/'
-        .. vim.fs.normalize(vim.fn.fnamemodify(vim.fn.bufname(), ':.'))
-        .. '#L'
-        .. vim.fn.line('.')
+    
+    local commit = vim.trim(vim.system({ 'git', 'rev-parse', 'HEAD' }, { text = true }):wait().stdout)
+    local path = vim.fs.normalize(vim.fn.fnamemodify(vim.fn.bufname(), ':.'))
+    local line = vim.fn.line('.')
+    
+    -- Detect platform and build appropriate URL
+    local detected_platform = platform.detect(url)
+    util.debug('Detected platform: ' .. detected_platform)
+    
+    return platform.build_url(detected_platform, url, commit, path, line)
 end
 
 function M.open()
