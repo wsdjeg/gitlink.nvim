@@ -31,6 +31,7 @@ jobs:
       - name: Download luaunit to test directory
         run: |
           curl -fsSL https://raw.githubusercontent.com/bluebird75/luaunit/master/luaunit.lua -o test/luaunit.lua
+          curl -fsSL https://raw.githubusercontent.com/wsdjeg/job.nvim/master/lua/job/init.lua -o test/job/init.lua
       
       - name: Run tests
         run: make test
