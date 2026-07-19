@@ -17,6 +17,7 @@ Session.vim
 # Test temporary files
 test/*.out
 test/*.lua~
+test/.deps/
 
 # Editor/IDE
 .vscode/

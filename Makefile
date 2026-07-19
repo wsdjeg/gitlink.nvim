@@ -1,32 +1,36 @@
-.PHONY: test clean install-luaunit help lint
+.PHONY: test test-all test-verbose clean install-deps install-luaunit help lint
 
 # Default target
 help:
 	@echo "Available targets:"
-	@echo "  test            - Run all tests with nvim --headless"
-	@echo "  install-luaunit - Install luaunit using luarocks"
-	@echo "  lint            - Run luacheck on source files"
+	@echo "  test            - Run all tests (or specific tests with PATTERN=...)"
 	@echo "  clean           - Clean test cache files"
+	@echo "  install-deps    - Download all test dependencies"
+	@echo "  install-luaunit - Download luaunit test framework"
+	@echo ""
+	@echo "Examples:"
+	@echo "  make test                               # Run all tests"
+	@echo "  make test PATTERN=platform              # Match test/**/*platform*_spec.lua"
+	@echo "  make test PATTERN=test/platform_spec.lua  # Full path"
+
+# Install all test dependencies (cross-platform, uses Lua)
+install-deps:
+	@nvim --headless -u test/minimal_init.lua -c "lua dofile('test/install_deps.lua')" -c "qa!"
+
+# Aliases for individual dependency install (same cross-platform Lua script)
+install-luaunit: install-deps
 
 # Run tests with nvim headless
-test:
+# Supports PATTERN parameter to run specific test file(s)
+# Examples:
+#   make test PATTERN=test/platform_spec.lua
+#   make test PATTERN=platform  (shorthand for test/**/*platform*_spec.lua)
+test: install-deps
 	@echo "Running tests with nvim --headless..."
-	@nvim --headless -u NONE -c "lua package.path = 'lua/?.lua;test/?.lua;' .. package.path" -c "lua dofile('test/platform_spec.lua')" -c "qa!"
-
-# Run tests with verbose output
-test-verbose:
-	@echo "Running tests with verbose output..."
-	@nvim --headless -u NONE -c "lua package.path = 'lua/?.lua;test/?.lua;' .. package.path" -c "lua dofile('test/platform_spec.lua')" -c "qa!" 2>&1
-
-# Install luaunit
-install-luaunit:
-	@echo "Installing luaunit..."
-	@luarocks install luaunit
-
-# Run linter
-lint:
-	@echo "Running luacheck..."
-	@luacheck lua/ test/
+	@nvim --headless -u test/minimal_init.lua \
+		-c "lua _G.TEST_PATTERN = '$(PATTERN)'" \
+		-c "lua dofile('test/run.lua')" \
+		-c "qa!"
 
 # Clean generated files
 clean:
@@ -34,3 +38,5 @@ clean:
 	@rm -rf test/*.lua~
 	@rm -rf test/*.out
 	@rm -rf *.swp
+	@rm -rf /tmp/gitlink_nvim_test_* 2>/dev/null || true
+
