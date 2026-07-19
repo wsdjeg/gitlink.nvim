@@ -30,6 +30,8 @@ A Lua plugin for Neovim to generate and open permalink of current file in browse
 - 🌐 Open link directly in browser
 - 🔍 Auto-detect Git platform from remote URL
 - 🔗 Support both HTTPS and SSH remote URLs
+- 📏 Support line range links (select lines in visual mode)
+- 🏠 Support self-hosted instances (GitLab, Gitea)
 
 ## Requirements
 
@@ -63,21 +65,24 @@ require('plug').add({
 ## Usage
 
 ```lua
--- Copy git link to clipboard
-vim.keymap.set('n', '<leader>gy', function()
+-- Copy git link to clipboard (normal mode: current line, visual mode: selected range)
+vim.keymap.set({ 'n', 'x' }, '<leader>gy', function()
     require('gitlink').copy()
 end, { silent = true, desc = 'Copy git link' })
 
--- Open git link in browser
-vim.keymap.set('n', '<leader>gY', function()
+-- Open git link in browser (normal mode: current line, visual mode: selected range)
+vim.keymap.set({ 'n', 'x' }, '<leader>gY', function()
     require('gitlink').open()
 end, { silent = true, desc = 'Open git link in browser' })
 ```
 
-| Function                    | Description                 |
-| --------------------------- | --------------------------- |
-| `require('gitlink').copy()` | Copy permalink to clipboard |
-| `require('gitlink').open()` | Open permalink in browser   |
+- **Normal mode**: generates a single-line permalink (`#L10`)
+- **Visual mode**: generates a line range permalink (e.g. `#L10-L20`)
+
+| Function                    | Description                                   |
+| --------------------------- | --------------------------------------------- |
+| `require('gitlink').copy()` | Copy permalink to clipboard                   |
+| `require('gitlink').open()` | Open permalink in browser                     |
 
 ## Configuration
 
@@ -87,13 +92,16 @@ require('gitlink').setup()
 
 ## Supported Platforms
 
-| Platform  | URL Format                                 | Custom Domain Support           |
-| --------- | ------------------------------------------ | ------------------------------- |
-| GitHub    | `{url}/blob/{commit}/{path}#L{line}`       | No                              |
-| GitLab    | `{url}/-/blob/{commit}/{path}#L{line}`     | Yes (matches `gitlab.` pattern) |
-| Bitbucket | `{url}/src/{commit}/{path}#lines-{line}`   | No                              |
-| Gitee     | `{url}/blob/{commit}/{path}#L{line}`       | No                              |
-| Codeberg  | `{url}/src/commit/{commit}/{path}#L{line}` | No                              |
+| Platform  | Single Line                               | Line Range                                  | Custom Domain Support           |
+| --------- | ----------------------------------------- | ------------------------------------------- | ------------------------------- |
+| GitHub    | `{url}/blob/{commit}/{path}#L10`          | `{url}/blob/{commit}/{path}#L10-L20`        | No                              |
+| GitLab    | `{url}/-/blob/{commit}/{path}#L10`        | `{url}/-/blob/{commit}/{path}#L10-20`       | Yes (matches `gitlab.` pattern) |
+| Bitbucket | `{url}/src/{commit}/{path}#lines-10`      | `{url}/src/{commit}/{path}#lines-10:20`     | No                              |
+| Gitee     | `{url}/blob/{commit}/{path}#L10`          | `{url}/blob/{commit}/{path}#L10-L20`        | No                              |
+| Codeberg  | `{url}/src/commit/{commit}/{path}#L10`    | `{url}/src/commit/{commit}/{path}#L10-L20`  | No                              |
+| Gitea     | `{url}/src/commit/{commit}/{path}#L10`    | `{url}/src/commit/{commit}/{path}#L10-L20`  | Yes (matches `gitea.` pattern)  |
+| Sourcehut | `{url}/tree/{commit}/item/{path}#L10`     | `{url}/tree/{commit}/item/{path}#L10-L20`   | No                              |
+| GitCode   | `{url}/blob/{commit}/{path}#L10`          | `{url}/blob/{commit}/{path}#L10-L20`        | No                              |
 
 ## Credits
 
