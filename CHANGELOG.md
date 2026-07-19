@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.1.0](https://github.com/wsdjeg/gitlink.nvim/compare/v1.0.0...v1.1.0) (2026-07-19)
+
+
+### Features
+
+* add gitea, sourcehut, gitcode platforms with line range support ([a80320a](https://github.com/wsdjeg/gitlink.nvim/commit/a80320a9542727f4b3f1458f80065019bf9a596d))
+* support other platform ([4b4851c](https://github.com/wsdjeg/gitlink.nvim/commit/4b4851ca31f1bafc03372b7d7a1bcedecccce8e4))
+
+
+### Bug Fixes
+
+* skip for no git repository ([db0e3e6](https://github.com/wsdjeg/gitlink.nvim/commit/db0e3e65f5581b8c5c7fc762e73de1a6419dd865))
+
+
+### Documentation
+
+* update readme ([2160142](https://github.com/wsdjeg/gitlink.nvim/commit/21601421e931e4363c63feb886b4570ed7fd233c))
+* update README to match picker.nvim style ([d90cf56](https://github.com/wsdjeg/gitlink.nvim/commit/d90cf5651ecb0fa2c873c7a6f331a92072cecd31))
+
 ## 1.0.0 (2025-11-24)
 
 
